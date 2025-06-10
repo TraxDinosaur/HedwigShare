@@ -1,0 +1,114 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+            <div class="floating">
+                <i class="bi bi-moon-stars-fill display-1 magic-icon mb-4"></i>
+            </div>
+            <h1 class="display-3 fw-bold mb-4 main-title">
+                Hedwig Share
+            </h1>
+            <p class="lead text-muted fs-4 mb-4">
+                Send your files through the magical postal service. Upload files up to 100MB and share them with enchanted 3-word codes.
+            </p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="{{ url_for('upload_file') }}" class="btn btn-magical btn-lg">
+                    <i class="bi bi-cloud-upload-fill me-2"></i>Send a Parcel
+                </a>
+                <a href="{{ url_for('search_file') }}" class="btn btn-secondary-magical btn-lg">
+                    <i class="bi bi-search me-2"></i>Receive a Delivery
+                </a>
+            </div>
+        </div>
+
+        <!-- How it works -->
+        <div class="row mb-5 g-4">
+            <div class="col-md-4">
+                <div class="glass-card p-4 text-center h-100">
+                    <i class="bi bi-cloud-upload display-3 magic-icon mb-3"></i>
+                    <h5 class="mb-3" style="color: var(--gold-accent);">1. Prepare Your Parcel</h5>
+                    <p class="text-muted">Select and upload your file (up to 100MB). Hedwig can carry quite a lot!</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card p-4 text-center h-100">
+                    <i class="bi bi-magic display-3 magic-icon mb-3"></i>
+                    <h5 class="mb-3" style="color: var(--gold-accent);">2. Get Your Spell Code</h5>
+                    <p class="text-muted">Receive a magical 3-word code that acts as your delivery address</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card p-4 text-center h-100">
+                    <i class="bi bi-share display-3 magic-icon mb-3"></i>
+                    <h5 class="mb-3" style="color: var(--gold-accent);">3. Send the Message</h5>
+                    <p class="text-muted">Share your spell code with anyone to let them receive your file</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Files Section -->
+        {% if user_files %}
+        <div class="glass-card p-4 mb-5">
+            <div class="d-flex align-items-center mb-4">
+                <i class="bi bi-archive-fill me-3 magic-icon fs-3"></i>
+                <h3 class="mb-0" style="color: var(--gold-accent);">Your Magical Archive</h3>
+            </div>
+            
+            <div class="row g-3">
+                {% for file in user_files %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="file-card p-3">
+                        <div class="d-flex align-items-start justify-content-between mb-2">
+                            <h6 class="text-truncate me-2" title="{{ file.original_filename }}">
+                                <i class="bi bi-file-earmark-text me-1 magic-icon"></i>
+                                {{ file.original_filename }}
+                            </h6>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">
+                                <i class="bi bi-code me-1"></i>
+                                Spell code: <span class="word-code small">{{ file.word_code }}</span>
+                            </small>
+                            <small class="text-muted d-block mt-1">
+                                <i class="bi bi-calendar me-1"></i>
+                                Sent: {{ file.upload_date.split()[0] if file.upload_date else 'Unknown' }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="bi bi-hdd me-1"></i>
+                                Size: {{ "%.1f"|format((file.file_size / 1024 / 1024)) }} MB
+                            </small>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{{ url_for('file_info', word_code=file.word_code) }}" 
+                               class="btn btn-sm btn-secondary-magical flex-fill">
+                                <i class="bi bi-eye me-1"></i>View
+                            </a>
+                            <a href="{{ url_for('download_file', word_code=file.word_code) }}" 
+                               class="btn btn-sm btn-magical">
+                                <i class="bi bi-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="glass-card p-5 text-center">
+            <div class="floating">
+                <i class="bi bi-inbox display-1 text-muted mb-4"></i>
+            </div>
+            <h4 class="text-muted mb-3">Your archive is empty</h4>
+            <p class="text-muted mb-4">Start sending files through Hedwig's magical postal service!</p>
+            <a href="{{ url_for('upload_file') }}" class="btn btn-magical">
+                <i class="bi bi-cloud-upload-fill me-2"></i>Send Your First Parcel
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

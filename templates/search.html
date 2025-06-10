@@ -1,0 +1,68 @@
+
+{% extends "base.html" %}
+
+{% block title %}Receive a Delivery - Hedwig Share{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="glass-card p-4">
+            <div class="text-center mb-4">
+                <div class="floating">
+                    <i class="bi bi-search display-3 magic-icon mb-3"></i>
+                </div>
+                <h4 style="color: var(--gold-accent);">
+                    <i class="bi bi-envelope-open me-2"></i>Receive Your Magical Delivery
+                </h4>
+                <p class="text-muted">Enter the 3-word spell code to retrieve your file from Hedwig</p>
+            </div>
+            
+            <form method="POST">
+                <div class="mb-4">
+                    <label for="word_code" class="form-label">
+                        <i class="bi bi-magic me-2 magic-icon"></i>Spell Code
+                    </label>
+                    <input type="text" 
+                           class="form-control form-control-lg" 
+                           id="word_code" 
+                           name="word_code" 
+                           placeholder="enchanted-owl-delivery" 
+                           required
+                           style="text-align: center; font-family: 'Cinzel', serif;">
+                    <div class="form-text text-muted text-center mt-2">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Enter the magical 3-word code you received
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-3">
+                    <button type="submit" class="btn btn-magical btn-lg">
+                        <i class="bi bi-search me-2"></i>Summon File
+                    </button>
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary-magical">
+                        <i class="bi bi-arrow-left me-2"></i>Return to Owlery
+                    </a>
+                </div>
+            </form>
+            
+            <hr class="my-4" style="border-color: var(--glass-border);">
+            
+            <div class="text-center">
+                <h6 class="mb-3" style="color: var(--gold-accent);">
+                    <i class="bi bi-question-circle me-2"></i>How It Works
+                </h6>
+                <p class="text-muted small">
+                    Each file sent through Hedwig gets a unique 3-word spell code. 
+                    Simply enter the code here to retrieve and download the file instantly.
+                </p>
+                <div class="p-3 rounded mt-3" style="background: rgba(255, 255, 255, 0.05);">
+                    <i class="bi bi-lightbulb magic-icon mb-2"></i><br>
+                    <small class="text-muted">
+                        <strong>Example:</strong> "mystical-feather-scroll" or "golden-snitch-message"
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+
+{% extends "base.html" %}
+
+{% block title %}Send a Parcel - Hedwig Share{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="glass-card p-4">
+            <div class="text-center mb-4">
+                <div class="floating">
+                    <i class="bi bi-moon-stars-fill display-3 magic-icon mb-3"></i>
+                </div>
+                <h4 style="color: var(--gold-accent);">
+                    <i class="bi bi-cloud-upload-fill me-2"></i>Prepare Your Magical Parcel
+                </h4>
+                <p class="text-muted">Hedwig is ready to deliver your file anywhere in the magical world</p>
+            </div>
+            
+            <form method="POST" enctype="multipart/form-data">
+                <div class="upload-zone mb-4" onclick="document.querySelector('input[type=file]').click()">
+                    <i class="bi bi-cloud-upload display-3 text-muted mb-3"></i>
+                    <h5>Select a file to send</h5>
+                    <p class="text-muted mb-3">Maximum parcel size: 100MB</p>
+                    <input type="file" class="form-control" name="file" required accept="*/*" style="display: none;">
+                    <div class="btn btn-secondary-magical">
+                        <i class="bi bi-folder2-open me-2"></i>Choose File
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-3">
+                    <button type="submit" class="btn btn-magical btn-lg">
+                        <i class="bi bi-send me-2"></i>Send via Hedwig
+                    </button>
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary-magical">
+                        <i class="bi bi-arrow-left me-2"></i>Return to Owlery
+                    </a>
+                </div>
+            </form>
+            
+            <hr class="my-4" style="border-color: var(--glass-border);">
+            
+            <div class="text-center">
+                <h6 class="mb-3" style="color: var(--gold-accent);">
+                    <i class="bi bi-info-circle me-2"></i>About Hedwig's Service
+                </h6>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-3 rounded" style="background: rgba(255, 255, 255, 0.05);">
+                            <i class="bi bi-shield-check magic-icon mb-2 d-block"></i>
+                            <small class="text-muted">Secure delivery guaranteed</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 rounded" style="background: rgba(255, 255, 255, 0.05);">
+                            <i class="bi bi-lightning-charge magic-icon mb-2 d-block"></i>
+                            <small class="text-muted">Lightning-fast sharing</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('input[type=file]').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const fileName = file.name;
+            const fileSize = (file.size / 1024 / 1024).toFixed(1);
+            
+            const uploadZone = document.querySelector('.upload-zone');
+            let fileDisplay = document.querySelector('.file-display');
+            if (!fileDisplay) {
+                fileDisplay = document.createElement('div');
+                fileDisplay.className = 'file-display mt-3 p-3 text-center';
+                fileDisplay.style.background = 'rgba(212, 175, 55, 0.1)';
+                fileDisplay.style.border = '1px solid rgba(212, 175, 55, 0.3)';
+                fileDisplay.style.borderRadius = '15px';
+                uploadZone.appendChild(fileDisplay);
+            }
+            
+            fileDisplay.innerHTML = `
+                <i class="bi bi-file-earmark-check display-4 magic-icon mb-2"></i>
+                <h6 style="color: var(--gold-accent);">File Ready for Delivery</h6>
+                <p class="mb-1"><strong>${fileName}</strong></p>
+                <p class="text-muted mb-0">Size: ${fileSize} MB</p>
+            `;
+        }
+    });
+</script>
+{% endblock %}
